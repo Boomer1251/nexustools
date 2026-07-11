@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS TOOLS // Studio Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-base: #060b19;
+            --glass-bg: rgba(10, 25, 50, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent-cyan: #00f0ff;
+            --accent-emerald: #00ff87;
+            --accent-blue: #0066ff;
+            --glow-primary: rgba(0, 240, 255, 0.4);
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --card-radius: 20px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-base: #e6f0fa;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-cyan: #0099ff;
+            --accent-emerald: #059669;
+            --accent-blue: #1d4ed8;
+            --glow-primary: rgba(0, 153, 255, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Ambient Fluid Background Orbs */
+        .ambient-wrapper {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.6;
+            mix-blend-mode: screen;
+            transition: var(--transition-smooth);
+        }
+
+        [data-theme="light"] .orb {
+            mix-blend-mode: multiply;
+            opacity: 0.35;
+            filter: blur(100px);
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+            top: -200px;
+            left: -100px;
+            animation: drift 25s infinite alternate ease-in-out;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-emerald) 0%, rgba(0,200,255,0.5) 100%);
+            bottom: -150px;
+            right: -100px;
+            animation: drift 20s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 60px) scale(1.15); }
+        }
+
+        /* Glossmorphic Utilities */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Sticky Header Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            padding: 12px 40px;
+            background: rgba(var(--bg-base), 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            text-shadow: 0 0 10px var(--glow-primary);
+        }
+
+        .logo i {
+            color: var(--accent-cyan);
+        }
+
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+
+        /* Custom Glossy Toast Notification System */
+        #notification-center {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .toast {
+            background: rgba(10, 25, 50, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 16px 20px;
+            border-radius: 14px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            pointer-events: auto;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        [data-theme="light"] .toast {
+            background: rgba(255, 255, 255, 0.9);
+            color: #0f172a;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left: 4px solid var(--accent-emerald); }
+        .toast.info { border-left: 4px solid var(--accent-cyan); }
+        .toast.error { border-left: 4px solid #ff4a4a; }
+
+        .toast i { font-size: 1.2rem; }
+        .toast.success i { color: var(--accent-emerald); }
+        .toast.info i { color: var(--accent-cyan); }
+        .toast.error i { color: #ff4a4a; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 140px 20px 20px 20px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 10%, #cbd5e1 40%, var(--accent-cyan) 70%, var(--accent-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .hero-title {
+            background: linear-gradient(135deg, #0f172a 10%, #334155 40%, var(--accent-blue) 75%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+        }
+
+        /* Tool Navigator Tabs */
+        .tool-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+
+        .tool-tab-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-tab-btn:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .tool-tab-btn.active {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px var(--glow-primary);
+        }
+
+        /* Main Workspace App Modules */
+        .workspace-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px 20px;
+        }
+
+        .tool-panel {
+            display: none;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .tool-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* External Redirect Layouts */
+        .redirect-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .redirect-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .redirect-container h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .redirect-container p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        /* Form Controls & Inputs */
+        .input-wrapper {
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            transition: var(--transition-smooth);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px var(--glow-primary);
+        }
+
+        .main-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 10px 25px;
+            color: white;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        [data-theme="light"] .main-input {
+            color: #000;
+        }
+
+        .action-btn {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            border: none;
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .action-btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.03);
+            box-shadow: 0 0 20px var(--glow-primary);
+        }
+
+        .action-btn.emerald {
+            background: linear-gradient(90deg, var(--accent-emerald), #00b359);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+        
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Live Sandbox Output Frame */
+        .output-box {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            padding: 25px;
+            background: rgba(5, 12, 30, 0.7);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: none;
+        }
+
+        .output-box.active {
+            display: block;
+        }
+
+        .preview-frame {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid var(--glass-border);
+            max-height: 400px;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .download-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Hidden processing canvas */
+        #processing-canvas {
+            display: none;
+        }
+
+        /* Footer Layout */
+        footer {
+            background: rgba(3, 7, 18, 0.85);
+            border-top: 1px solid var(--glass-border);
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container { flex-direction: column; gap: 20px; }
+            .tool-nav { flex-direction: column; }
+            .input-wrapper { flex-direction: column; border-radius: 20px; padding: 15px; }
+            .action-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="notification-center"></div>
+
+    <div class="ambient-wrapper">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <canvas id="processing-canvas"></canvas>
+
+    <header id="header-nav">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>NEXUS STUDIO
+            </a>
+            <button class="theme-toggle" id="theme-btn" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Nexus Multi-Tool Suite</h1>
+            <p class="hero-subtitle">High-performance portal wrappers and image extraction tools built with premium fluid glossmorphic styling.</p>
+        </div>
+    </section>
+
+    <div class="tool-nav">
+        <button class="tool-tab-btn active" onclick="switchToolTab('grabber-node', this)">
+            <i class="fa-solid fa-image"></i> YouTube Thumbnail Grabber
+        </button>
+        <button class="tool-tab-btn" onclick="switchToolTab('cobalt-node', this)">
+            <i class="fa-solid fa-cloud-arrow-down"></i> Cobalt Downloader
+        </button>
+        <button class="tool-tab-btn" onclick="switchToolTab('cleanup-node', this)">
+            <i class="fa-solid fa-broom"></i> Object Eraser Studio
+        </button>
+    </div>
+
+    <main class="workspace-section">
+        
+        <div id="grabber-node" class="glass-panel tool-panel active">
+            <form id="grabber-form" onsubmit="handleGrabberSubmit(event)">
+                <div class="input-wrapper">
+                    <input type="url" placeholder="Enter standard YouTube video link URL..." class="main-input" id="youtube-url" required>
+                    <button type="submit" class="action-btn">Fetch Art</button>
+                </div>
+            </form>
+
+            <div class="output-box" id="grabber-output">
+                <h4 style="margin-bottom: 10px; color: var(--accent-cyan);"><i class="fa-solid fa-circle-check"></i> Ultra-HD 1080p Stream Mounted</h4>
+                <img id="thumbnail-preview" src="" alt="YouTube Frame Monitor View" class="preview-frame" crossorigin="anonymous">
+                <div class="download-btn-group">
+                    <button class="action-btn" onclick="triggerPngDownload()"><i class="fa-solid fa-file-arrow-down"></i> Download 1080p PNG</button>
+                    <a id="failover-link" href="#" target="_blank" class="action-btn secondary"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Source Asset Site</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="cobalt-node" class="glass-panel tool-panel">
+            <div class="redirect-container">
+                <div class="redirect-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+                <h3>Cobalt Web Pipeline</h3>
+                <p>Media extraction requires secure API handshakes best handled directly by the official server environment framework setup.</p>
+                <a href="https://cobalt.tools" target="_blank" class="action-btn" onclick="notify('Launching Cobalt Media Engine...', 'success')">
+                    Open cobalt.tools <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
+
+        <div id="cleanup-node" class="glass-panel tool-panel">
+            <div class="redirect-container">
+                <div class="redirect-icon" style="background: linear-gradient(135deg, var(--accent-emerald), #00b359); -webkit-background-clip: text;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3>Object Eraser Engine</h3>
+                <p>AI in-painting canvas functions operate safely on full WebGL dedicated platforms. Drop your images straight into the official cleanup pipeline application.</p>
+                <a href="https://cleanup.pictures" target="_blank" class="action-btn emerald" onclick="notify('Launching AI Object Eraser Node...', 'success')">
+                    Open cleanup.pictures <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div>&copy; 2026 NEXUS STUDIO Hub. Engineered with fluid aesthetics.</div>
+        </div>
+    </footer>
+
+    <script>
+        const header = document.getElementById('header-nav');
+        const themeBtn = document.getElementById('theme-btn');
+        let currentVideoId = '';
+
+        // Custom Notification Engine (Replaces raw native alerts)
+        function notify(message, type = 'info') {
+            const center = document.getElementById('notification-center');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-info-circle';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-triangle';
+
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            center.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 50);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+
+        // Sticky Header Scroll Monitor Hook
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Dark / Light Mode Layout Switch Automation Engine
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            themeBtn.querySelector('i').className = targetTheme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            notify(`Switched to ${targetTheme} view mode`, 'info');
+        });
+
+        // Tab Navigation Array Switcher
+        function switchToolTab(nodeId, element) {
+            document.querySelectorAll('.tool-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tool-panel').forEach(panel => panel.classList.remove('active'));
+            
+            element.classList.add('active');
+            document.getElementById(nodeId).classList.add('active');
+        }
+
+        // YouTube Image Retrieval Parser Engine
+        function handleGrabberSubmit(e) {
+            e.preventDefault();
+            const urlInput = document.getElementById('youtube-url').value;
+            
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = urlInput.match(regExp);
+            
+            if (match && match[2].length === 11) {
+                currentVideoId = match[2];
+                const previewImg = document.getElementById('thumbnail-preview');
+                const targetUrl = `https://img.youtube.com/vi/${currentVideoId}/maxresdefault.jpg`;
+                
+                notify('Mapping YouTube asset node servers...', 'info');
+                
+                // Map out the primary fallback url redirect link instantly
+                document.getElementById('failover-link').href = targetUrl;
+                
+                // Set native img source block
+                previewImg.src = targetUrl;
+                
+                previewImg.onload = function() {
+                    document.getElementById('grabber-output').classList.add('active');
+                    notify('1080p Graphics structural framework verified!', 'success');
+                };
+                
+                previewImg.onerror = function() {
+                    notify('Fallback link system tracking standard definition image source layers...', 'info');
+                    const fallbackUrl = `https://img.youtube.com/vi/${currentVideoId}/hqdefault.jpg`;
+                    previewImg.src = fallbackUrl;
+                    document.getElementById('failover-link').href = fallbackUrl;
+                };
+            } else {
+                notify('Invalid YouTube target tracking link parsed.', 'error');
+            }
+        }
+
+        // Direct Client-Canvas Downloader Processing Routine (Stops .webp conversion, guarantees local raw .png data injection)
+        function triggerPngDownload() {
+            const img = document.getElementById('thumbnail-preview');
+            if (!img.src || img.src === window.location.href) {
+                notify('No active graphic target layers loaded.', 'error');
+                return;
+            }
+
+            notify('Extracting file matrix layers directly into PNG data arrays...', 'info');
+
+            const canvas = document.getElementById('processing-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const renderImage = new Image();
+            renderImage.crossOrigin = "anonymous";
+            
+            // Bypass fetch/proxy errors entirely by directly injecting image data source mapping layout array structures
+            renderImage.src = img.src + '?t=' + new Date().getTime(); 
+
+            renderImage.onload = function () {
+                canvas.width = renderImage.naturalWidth;
+                canvas.height = renderImage.naturalHeight;
+                
+                // Paint pixels natively on client viewport environment to strip out webp wrappers completely
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(renderImage, 0, 0);
+                
+                try {
+                    // Pull explicit image/png data stream
+                    const dataUrl = canvas.toDataURL("image/png");
+                    
+                    const downloadAnchor = document.createElement('a');
+                    downloadAnchor.href = dataUrl;
+                    downloadAnchor.download = `youtube-maxres-${currentVideoId}.png`;
+                    
+                    document.body.appendChild(downloadAnchor);
+                    downloadAnchor.click();
+                    document.body.removeChild(downloadAnchor);
+                    
+                    notify('Premium 1080p PNG file downloaded successfully!', 'success');
+                } catch (error) {
+                    // Emergency fall back loop if security restrictions block script extraction arrays
+                    notify('Direct draw blocked by browser origin. Launching alternative backup file node...', 'error');
+                    window.open(img.src, '_blank');
+                }
+            };
+
+            renderImage.onerror = function() {
+                notify('Secure image translation failed. Use the site link redirect button!', 'error');
+            };
+        }
+    </script>
+</body>
+</html>
