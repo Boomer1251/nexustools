@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS TOOLS // Studio Suite</title>
+    <title>Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-base: #060b19;
@@ -37,12 +36,7 @@
             --glow-primary: rgba(0, 153, 255, 0.25);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-base);
@@ -54,57 +48,30 @@
             transition: background-color 0.5s ease;
         }
 
-        /* Ambient Fluid Background Orbs */
         .ambient-wrapper {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
+            position: fixed; width: 100vw; height: 100vh; top: 0; left: 0;
+            z-index: -1; overflow: hidden; pointer-events: none;
         }
-
         .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(140px);
-            opacity: 0.6;
-            mix-blend-mode: screen;
-            transition: var(--transition-smooth);
+            position: absolute; border-radius: 50%; filter: blur(140px);
+            opacity: 0.6; mix-blend-mode: screen; transition: var(--transition-smooth);
         }
-
-        [data-theme="light"] .orb {
-            mix-blend-mode: multiply;
-            opacity: 0.35;
-            filter: blur(100px);
-        }
-
+        [data-theme="light"] .orb { mix-blend-mode: multiply; opacity: 0.35; filter: blur(100px); }
         .orb-1 {
-            width: 600px;
-            height: 600px;
+            width: 600px; height: 600px;
             background: radial-gradient(circle, var(--accent-cyan) 0%, var(--accent-blue) 100%);
-            top: -200px;
-            left: -100px;
-            animation: drift 25s infinite alternate ease-in-out;
+            top: -200px; left: -100px; animation: drift 25s infinite alternate ease-in-out;
         }
-
         .orb-2 {
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: radial-gradient(circle, var(--accent-emerald) 0%, rgba(0,200,255,0.5) 100%);
-            bottom: -150px;
-            right: -100px;
-            animation: drift 20s infinite alternate-reverse ease-in-out;
+            bottom: -150px; right: -100px; animation: drift 20s infinite alternate-reverse ease-in-out;
         }
-
         @keyframes drift {
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(80px, 60px) scale(1.15); }
         }
 
-        /* Glossmorphic Utilities */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -117,361 +84,184 @@
             overflow: hidden;
         }
 
-        /* Sticky Header Navigation */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 40px;
-            transition: var(--transition-smooth);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 20px 40px; transition: var(--transition-smooth);
         }
-
         header.scrolled {
             padding: 12px 40px;
-            background: rgba(var(--bg-base), 0.7);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-            text-decoration: none;
+            font-size: 1.5rem; font-weight: 700; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 10px;
+            color: var(--text-primary); text-decoration: none;
             text-shadow: 0 0 10px var(--glow-primary);
         }
-
-        .logo i {
-            color: var(--accent-cyan);
-        }
+        .logo .ico { color: var(--accent-cyan); }
 
         .theme-toggle {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: var(--transition-smooth);
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            color: var(--text-primary); width: 42px; height: 42px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: var(--transition-smooth);
         }
 
-        /* Custom Glossy Toast Notification System */
+        .ico { display: inline-flex; width: 1em; height: 1em; flex-shrink: 0; vertical-align: -0.125em; }
+        .ico svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .link-fallback {
+            width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); color: #fff;
+        }
+
+        /* Toasts */
         #notification-center {
-            position: fixed;
-            top: 90px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            pointer-events: none;
-            max-width: 350px;
-            width: 100%;
+            position: fixed; top: 90px; right: 20px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 12px;
+            pointer-events: none; max-width: 350px; width: 100%;
         }
-
         .toast {
             background: rgba(10, 25, 50, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            padding: 16px 20px;
-            border-radius: 14px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            padding: 16px 20px; border-radius: 14px; color: white;
+            display: flex; align-items: center; gap: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            pointer-events: auto;
-            transform: translateX(120%);
-            opacity: 0;
+            pointer-events: auto; transform: translateX(120%); opacity: 0;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        [data-theme="light"] .toast {
-            background: rgba(255, 255, 255, 0.9);
-            color: #0f172a;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
+        [data-theme="light"] .toast { background: rgba(255, 255, 255, 0.9); color: #0f172a; }
+        .toast.show { transform: translateX(0); opacity: 1; }
         .toast.success { border-left: 4px solid var(--accent-emerald); }
         .toast.info { border-left: 4px solid var(--accent-cyan); }
         .toast.error { border-left: 4px solid #ff4a4a; }
+        .toast .ico { font-size: 1.2rem; }
+        .toast.success .ico { color: var(--accent-emerald); }
+        .toast.info .ico { color: var(--accent-cyan); }
+        .toast.error .ico { color: #ff4a4a; }
 
-        .toast i { font-size: 1.2rem; }
-        .toast.success i { color: var(--accent-emerald); }
-        .toast.info i { color: var(--accent-cyan); }
-        .toast.error i { color: #ff4a4a; }
-
-        /* Hero Section */
-        .hero {
-            min-height: 40vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 140px 20px 20px 20px;
-            text-align: center;
-        }
-
+        /* Hero */
+        .hero { padding: 130px 20px 30px; text-align: center; }
         .hero-title {
-            font-size: 4rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
+            font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 12px;
             background: linear-gradient(135deg, #ffffff 10%, #cbd5e1 40%, var(--accent-cyan) 70%, var(--accent-emerald) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
         [data-theme="light"] .hero-title {
             background: linear-gradient(135deg, #0f172a 10%, #334155 40%, var(--accent-blue) 75%, var(--accent-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* Layout */
+        main { max-width: 1200px; margin: 0 auto; padding: 20px 20px 80px; }
+        .section-title {
+            font-size: 1.1rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-secondary); margin: 40px 0 16px 6px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-title .ico { color: var(--accent-cyan); }
+
+        .tool-card { padding: 30px; }
+        .tool-card h3 { font-size: 1.3rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .tool-card h3 .ico { color: var(--accent-cyan); }
+        .tool-card .desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; }
+
+        .tools-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px;
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 35px;
-        }
-
-        /* Tool Navigator Tabs */
-        .tool-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 50px;
-            padding: 0 20px;
-        }
-
-        .tool-tab-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: var(--transition-smooth);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tool-tab-btn:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-2px);
-        }
-
-        .tool-tab-btn.active {
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
-            color: white;
-            border: none;
-            box-shadow: 0 4px 20px var(--glow-primary);
-        }
-
-        /* Main Workspace App Modules */
-        .workspace-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 100px 20px;
-        }
-
-        .tool-panel {
-            display: none;
-            padding: 50px 40px;
-            text-align: center;
-        }
-
-        .tool-panel.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* External Redirect Layouts */
-        .redirect-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .redirect-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        .redirect-container h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .redirect-container p {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-
-        /* Form Controls & Inputs */
+        /* Inputs */
         .input-wrapper {
-            display: flex;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 8px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-            max-width: 800px;
-            margin: 0 auto 30px auto;
+            display: flex; gap: 12px; background: rgba(0, 0, 0, 0.2);
+            padding: 6px; border-radius: 50px; border: 1px solid var(--glass-border);
             transition: var(--transition-smooth);
         }
-
-        .input-wrapper:focus-within {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px var(--glow-primary);
-        }
-
+        .input-wrapper:focus-within { border-color: var(--accent-cyan); box-shadow: 0 0 15px var(--glow-primary); }
         .main-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            padding: 10px 25px;
-            color: white;
-            font-family: var(--font-main);
-            font-size: 1rem;
-            flex: 1;
+            background: transparent; border: none; outline: none; padding: 10px 20px;
+            color: var(--text-primary); font-family: var(--font-main); font-size: 1rem;
+            flex: 1; min-width: 0;
         }
-
-        [data-theme="light"] .main-input {
-            color: #000;
-        }
+        .main-input::placeholder { color: var(--text-secondary); }
 
         .action-btn {
             background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
-            border: none;
-            color: white;
-            padding: 12px 35px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            border: none; color: white; padding: 11px 28px; border-radius: 50px;
+            font-family: var(--font-main); font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+            gap: 10px; transition: var(--transition-smooth); white-space: nowrap;
+        }
+        .action-btn:hover { filter: brightness(1.1); transform: scale(1.03); box-shadow: 0 0 20px var(--glow-primary); }
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border); color: var(--text-primary);
+        }
+        .action-btn.secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* MP3 / MP4 toggle */
+        .format-toggle { display: flex; gap: 8px; margin-top: 14px; }
+        .format-opt {
+            flex: 1; padding: 10px; border-radius: 12px; cursor: pointer;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border);
+            color: var(--text-primary); font-family: var(--font-main); font-weight: 600;
             transition: var(--transition-smooth);
         }
-
-        .action-btn:hover {
-            filter: brightness(1.1);
-            transform: scale(1.03);
-            box-shadow: 0 0 20px var(--glow-primary);
+        .format-opt:hover { border-color: var(--accent-cyan); }
+        .format-opt.active {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            border-color: transparent; color: #fff; box-shadow: 0 4px 16px var(--glow-primary);
         }
+        .hint { font-size: 0.82rem; color: var(--text-secondary); margin-top: 12px; }
 
-        .action-btn.emerald {
-            background: linear-gradient(90deg, var(--accent-emerald), #00b359);
-        }
-
-        .action-btn.secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-        }
-        
-        .action-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Live Sandbox Output Frame */
+        /* Thumbnail output */
         .output-box {
-            max-width: 800px;
-            margin: 40px auto 0 auto;
-            padding: 25px;
-            background: rgba(5, 12, 30, 0.7);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-            display: none;
+            margin-top: 20px; padding: 18px; background: rgba(5, 12, 30, 0.6);
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); display: none;
         }
-
-        .output-box.active {
-            display: block;
-        }
-
+        .output-box.active { display: block; }
         .preview-frame {
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 15px;
-            border: 1px solid var(--glass-border);
-            max-height: 400px;
-            object-fit: contain;
-            background: #000;
+            width: 100%; border-radius: 8px; border: 1px solid var(--glass-border);
+            max-height: 300px; object-fit: contain; background: #000;
         }
+        .download-btn-group { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
 
-        .download-btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
+        /* Saved links */
+        .links-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
         }
+        .link-card {
+            padding: 20px; display: flex; align-items: center; gap: 14px;
+            text-decoration: none; color: var(--text-primary); cursor: pointer;
+        }
+        .link-card:hover { transform: translateY(-4px); border-color: var(--accent-cyan); box-shadow: 0 8px 30px var(--glow-primary); }
+        .link-card img { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; background: rgba(255,255,255,0.1); }
+        .link-info { min-width: 0; flex: 1; }
+        .link-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .link-host { font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .link-remove {
+            background: none; border: none; color: var(--text-secondary); cursor: pointer;
+            font-size: 0.9rem; padding: 6px; border-radius: 50%; opacity: 0; transition: var(--transition-smooth);
+        }
+        .link-card:hover .link-remove { opacity: 1; }
+        .link-remove:hover { color: #ff4a4a; }
 
-        /* Hidden processing canvas */
-        #processing-canvas {
-            display: none;
-        }
-
-        /* Footer Layout */
-        footer {
-            background: rgba(3, 7, 18, 0.85);
-            border-top: 1px solid var(--glass-border);
-            padding: 40px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .add-link-form { padding: 16px; margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .add-link-form .input-wrapper { flex: 1; min-width: 200px; }
 
         @media (max-width: 768px) {
-            .footer-container { flex-direction: column; gap: 20px; }
-            .tool-nav { flex-direction: column; }
-            .input-wrapper { flex-direction: column; border-radius: 20px; padding: 15px; }
-            .action-btn { width: 100%; justify-content: center; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.6rem; }
+            .input-wrapper { flex-direction: column; border-radius: 20px; padding: 10px; }
+            .action-btn { width: 100%; }
+            header, header.scrolled { padding: 14px 20px; }
+            .link-remove { opacity: 1; }
         }
     </style>
 </head>
@@ -484,229 +274,317 @@
         <div class="orb orb-2"></div>
     </div>
 
-    <canvas id="processing-canvas"></canvas>
+    <canvas id="processing-canvas" style="display:none"></canvas>
 
     <header id="header-nav">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>NEXUS STUDIO
-            </a>
+            <a href="#" class="logo"><span class="ico" data-icon="toolbox"></span>TOOLS</a>
             <button class="theme-toggle" id="theme-btn" aria-label="Toggle Theme">
-                <i class="fa-solid fa-moon"></i>
+                <span class="ico" data-icon="moon"></span>
             </button>
         </div>
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Nexus Multi-Tool Suite</h1>
-            <p class="hero-subtitle">High-performance portal wrappers and image extraction tools built with premium fluid glossmorphic styling.</p>
-        </div>
+        <h1 class="hero-title">Tools</h1>
+        <p class="hero-subtitle">Everything I like to use, in one place.</p>
     </section>
 
-    <div class="tool-nav">
-        <button class="tool-tab-btn active" onclick="switchToolTab('grabber-node', this)">
-            <i class="fa-solid fa-image"></i> YouTube Thumbnail Grabber
-        </button>
-        <button class="tool-tab-btn" onclick="switchToolTab('cobalt-node', this)">
-            <i class="fa-solid fa-cloud-arrow-down"></i> Cobalt Downloader
-        </button>
-        <button class="tool-tab-btn" onclick="switchToolTab('cleanup-node', this)">
-            <i class="fa-solid fa-broom"></i> Object Eraser Studio
-        </button>
-    </div>
+    <main>
+        <div class="section-title"><span class="ico" data-icon="wrench"></span> Tools</div>
 
-    <main class="workspace-section">
-        
-        <div id="grabber-node" class="glass-panel tool-panel active">
-            <form id="grabber-form" onsubmit="handleGrabberSubmit(event)">
-                <div class="input-wrapper">
-                    <input type="url" placeholder="Enter standard YouTube video link URL..." class="main-input" id="youtube-url" required>
-                    <button type="submit" class="action-btn">Fetch Art</button>
+        <div class="tools-grid">
+
+            <!-- YouTube Downloader -->
+            <div class="glass-panel tool-card">
+                <h3><span class="ico" data-icon="download"></span> YouTube Downloader</h3>
+                <p class="desc">Paste a link, pick MP4 (video) or MP3 (audio).</p>
+                <form onsubmit="handleDownloadSubmit(event)">
+                    <div class="input-wrapper">
+                        <input type="url" placeholder="YouTube video link..." class="main-input" id="dl-url" required>
+                        <button type="submit" class="action-btn"><span class="ico" data-icon="download"></span> Download</button>
+                    </div>
+                </form>
+                <div class="format-toggle" id="format-toggle">
+                    <button type="button" class="format-opt active" data-format="mp4"><span class="ico" data-icon="film"></span> MP4</button>
+                    <button type="button" class="format-opt" data-format="mp3"><span class="ico" data-icon="music"></span> MP3</button>
                 </div>
-            </form>
+                <p class="hint" id="dl-hint">Opens Cobalt with your link filled in. Set it to Auto for video.</p>
+            </div>
 
-            <div class="output-box" id="grabber-output">
-                <h4 style="margin-bottom: 10px; color: var(--accent-cyan);"><i class="fa-solid fa-circle-check"></i> Ultra-HD 1080p Stream Mounted</h4>
-                <img id="thumbnail-preview" src="" alt="YouTube Frame Monitor View" class="preview-frame" crossorigin="anonymous">
-                <div class="download-btn-group">
-                    <button class="action-btn" onclick="triggerPngDownload()"><i class="fa-solid fa-file-arrow-down"></i> Download 1080p PNG</button>
-                    <a id="failover-link" href="#" target="_blank" class="action-btn secondary"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Source Asset Site</a>
+            <!-- Thumbnail Grabber -->
+            <div class="glass-panel tool-card">
+                <h3><span class="ico" data-icon="image"></span> YouTube Thumbnail Grabber</h3>
+                <p class="desc">Grab the highest quality thumbnail of any video as a PNG.</p>
+                <form onsubmit="handleGrabberSubmit(event)">
+                    <div class="input-wrapper">
+                        <input type="url" placeholder="YouTube video link..." class="main-input" id="youtube-url" required>
+                        <button type="submit" class="action-btn">Fetch</button>
+                    </div>
+                </form>
+                <div class="output-box" id="grabber-output">
+                    <img id="thumbnail-preview" src="" alt="Thumbnail preview" class="preview-frame" crossorigin="anonymous">
+                    <div class="download-btn-group">
+                        <button class="action-btn" onclick="triggerPngDownload()"><span class="ico" data-icon="download"></span> Download PNG</button>
+                        <a id="failover-link" href="#" target="_blank" rel="noopener" class="action-btn secondary"><span class="ico" data-icon="arrow-up-right-from-square"></span> Open image</a>
+                    </div>
                 </div>
             </div>
+
         </div>
 
-        <div id="cobalt-node" class="glass-panel tool-panel">
-            <div class="redirect-container">
-                <div class="redirect-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
-                <h3>Cobalt Web Pipeline</h3>
-                <p>Media extraction requires secure API handshakes best handled directly by the official server environment framework setup.</p>
-                <a href="https://cobalt.tools" target="_blank" class="action-btn" onclick="notify('Launching Cobalt Media Engine...', 'success')">
-                    Open cobalt.tools <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
+        <!-- Saved links -->
+        <div class="section-title"><span class="ico" data-icon="link"></span> My Links</div>
+        <div class="links-grid" id="links-grid"></div>
+
+        <form class="glass-panel add-link-form" onsubmit="handleAddLink(event)">
+            <div class="input-wrapper">
+                <input type="text" placeholder="Name" class="main-input" id="new-link-name" required>
             </div>
-        </div>
-
-        <div id="cleanup-node" class="glass-panel tool-panel">
-            <div class="redirect-container">
-                <div class="redirect-icon" style="background: linear-gradient(135deg, var(--accent-emerald), #00b359); -webkit-background-clip: text;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <h3>Object Eraser Engine</h3>
-                <p>AI in-painting canvas functions operate safely on full WebGL dedicated platforms. Drop your images straight into the official cleanup pipeline application.</p>
-                <a href="https://cleanup.pictures" target="_blank" class="action-btn emerald" onclick="notify('Launching AI Object Eraser Node...', 'success')">
-                    Open cleanup.pictures <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
+            <div class="input-wrapper" style="flex:2">
+                <input type="url" placeholder="https://..." class="main-input" id="new-link-url" required>
             </div>
-        </div>
-
+            <button type="submit" class="action-btn"><span class="ico" data-icon="plus"></span> Add link</button>
+        </form>
     </main>
 
-    <footer>
-        <div class="footer-container">
-            <div>&copy; 2026 NEXUS STUDIO Hub. Engineered with fluid aesthetics.</div>
-        </div>
-    </footer>
-
     <script>
+        /* ---------- Inline icons (no external font needed) ---------- */
+        const ICONS = {
+            toolbox: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+            moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+            sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+            download: '<path d="M12 3v12M7 11l5 5 5-5M5 21h14"/>',
+            film: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/>',
+            music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+            image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>',
+            'arrow-up-right-from-square': '<path d="M15 3h6v6M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+            plus: '<path d="M12 5v14M5 12h14"/>',
+            xmark: '<path d="M18 6L6 18M6 6l12 12"/>',
+            link: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
+            wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/>',
+            info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+            success: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+            error: '<path d="M12 3L2 21h20z"/><path d="M12 10v5M12 18h.01"/>'
+        };
+        function iconHtml(name) {
+            return '<span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || '') + '</svg></span>';
+        }
+        document.querySelectorAll('[data-icon]').forEach(el => {
+            el.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[el.dataset.icon] || '') + '</svg>';
+        });
+        /* ---------- MY LINKS ----------
+           Edit this list to change the built-in links.
+           Links you add with the form on the page are saved in your browser. */
+        const DEFAULT_LINKS = [
+            { name: 'Cobalt',          url: 'https://cobalt.tools' },
+            { name: 'Cleanup.pictures', url: 'https://cleanup.pictures' }
+        ];
+
+        const STORAGE_KEY = 'tools_links_v1';
+
+        function loadLinks() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if (Array.isArray(saved)) return saved;
+            } catch (e) {}
+            return DEFAULT_LINKS.slice();
+        }
+
+        function saveLinks(links) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(links)); } catch (e) {}
+        }
+
+        let links = loadLinks();
+
+        function hostOf(url) {
+            try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return url; }
+        }
+
+        function renderLinks() {
+            const grid = document.getElementById('links-grid');
+            grid.innerHTML = '';
+            links.forEach((l, i) => {
+                const a = document.createElement('a');
+                a.className = 'glass-panel link-card';
+                a.href = l.url;
+                a.target = '_blank';
+                a.rel = 'noopener';
+
+                const img = document.createElement('img');
+                const host0 = hostOf(l.url);
+                const sources = [
+                    'https://www.google.com/s2/favicons?sz=64&domain=' + encodeURIComponent(host0),
+                    'https://icons.duckduckgo.com/ip3/' + encodeURIComponent(host0) + '.ico'
+                ];
+                let tryIdx = 0;
+                img.alt = '';
+                img.referrerPolicy = 'no-referrer';
+                img.onerror = () => {
+                    tryIdx++;
+                    if (tryIdx < sources.length) { img.src = sources[tryIdx]; return; }
+                    const fb = document.createElement('div');
+                    fb.className = 'link-fallback';
+                    fb.textContent = (l.name[0] || '?').toUpperCase();
+                    img.replaceWith(fb);
+                };
+                img.src = sources[0];
+
+                const info = document.createElement('div');
+                info.className = 'link-info';
+                const name = document.createElement('div');
+                name.className = 'link-name';
+                name.textContent = l.name;
+                const host = document.createElement('div');
+                host.className = 'link-host';
+                host.textContent = hostOf(l.url);
+                info.append(name, host);
+
+                const rm = document.createElement('button');
+                rm.className = 'link-remove';
+                rm.title = 'Remove';
+                rm.innerHTML = '<span class="ico" data-icon="xmark"></span>';
+                rm.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    links.splice(i, 1);
+                    saveLinks(links);
+                    renderLinks();
+                    notify('Link removed', 'info');
+                };
+
+                a.append(img, info, rm);
+                grid.appendChild(a);
+            });
+        }
+
+        function handleAddLink(e) {
+            e.preventDefault();
+            const nameEl = document.getElementById('new-link-name');
+            const urlEl = document.getElementById('new-link-url');
+            links.push({ name: nameEl.value.trim(), url: urlEl.value.trim() });
+            saveLinks(links);
+            renderLinks();
+            nameEl.value = '';
+            urlEl.value = '';
+            notify('Link added', 'success');
+        }
+
+        /* ---------- UI helpers ---------- */
         const header = document.getElementById('header-nav');
         const themeBtn = document.getElementById('theme-btn');
         let currentVideoId = '';
 
-        // Custom Notification Engine (Replaces raw native alerts)
         function notify(message, type = 'info') {
             const center = document.getElementById('notification-center');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
-            let icon = 'fa-info-circle';
-            if (type === 'success') icon = 'fa-check-circle';
-            if (type === 'error') icon = 'fa-exclamation-triangle';
-
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            toast.innerHTML = iconHtml(type in ICONS ? type : 'info') + ' <span></span>';
+            toast.querySelector('span').textContent = message;
             center.appendChild(toast);
-
             setTimeout(() => toast.classList.add('show'), 50);
-            
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 500);
             }, 4000);
         }
 
-        // Sticky Header Scroll Monitor Hook
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            header.classList.toggle('scrolled', window.scrollY > 40);
         });
 
-        // Dark / Light Mode Layout Switch Automation Engine
         themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            themeBtn.querySelector('i').className = targetTheme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            notify(`Switched to ${targetTheme} view mode`, 'info');
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            themeBtn.innerHTML = iconHtml(target === 'light' ? 'sun' : 'moon');
         });
 
-        // Tab Navigation Array Switcher
-        function switchToolTab(nodeId, element) {
-            document.querySelectorAll('.tool-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tool-panel').forEach(panel => panel.classList.remove('active'));
-            
-            element.classList.add('active');
-            document.getElementById(nodeId).classList.add('active');
+        function getVideoId(url) {
+            const m = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+            return m && m[2].length === 11 ? m[2] : null;
         }
 
-        // YouTube Image Retrieval Parser Engine
+        /* ---------- YouTube Downloader ---------- */
+        let dlFormat = 'mp4';
+
+        document.querySelectorAll('.format-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.format-opt').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                dlFormat = btn.dataset.format;
+                document.getElementById('dl-hint').textContent = dlFormat === 'mp3'
+                    ? 'Opens Cobalt with your link filled in. Set it to Audio for MP3.'
+                    : 'Opens Cobalt with your link filled in. Set it to Auto for video.';
+            });
+        });
+
+        function handleDownloadSubmit(e) {
+            e.preventDefault();
+            const url = document.getElementById('dl-url').value.trim();
+            if (!getVideoId(url)) {
+                notify('That does not look like a YouTube link.', 'error');
+                return;
+            }
+            window.open('https://cobalt.tools/?u=' + encodeURIComponent(url), '_blank', 'noopener');
+            notify(`Opening Cobalt (${dlFormat.toUpperCase()})...`, 'success');
+        }
+
+        /* ---------- Thumbnail Grabber ---------- */
         function handleGrabberSubmit(e) {
             e.preventDefault();
-            const urlInput = document.getElementById('youtube-url').value;
-            
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = urlInput.match(regExp);
-            
-            if (match && match[2].length === 11) {
-                currentVideoId = match[2];
-                const previewImg = document.getElementById('thumbnail-preview');
-                const targetUrl = `https://img.youtube.com/vi/${currentVideoId}/maxresdefault.jpg`;
-                
-                notify('Mapping YouTube asset node servers...', 'info');
-                
-                // Map out the primary fallback url redirect link instantly
-                document.getElementById('failover-link').href = targetUrl;
-                
-                // Set native img source block
-                previewImg.src = targetUrl;
-                
-                previewImg.onload = function() {
-                    document.getElementById('grabber-output').classList.add('active');
-                    notify('1080p Graphics structural framework verified!', 'success');
-                };
-                
-                previewImg.onerror = function() {
-                    notify('Fallback link system tracking standard definition image source layers...', 'info');
-                    const fallbackUrl = `https://img.youtube.com/vi/${currentVideoId}/hqdefault.jpg`;
-                    previewImg.src = fallbackUrl;
-                    document.getElementById('failover-link').href = fallbackUrl;
-                };
-            } else {
-                notify('Invalid YouTube target tracking link parsed.', 'error');
+            const id = getVideoId(document.getElementById('youtube-url').value);
+            if (!id) {
+                notify('Invalid YouTube link.', 'error');
+                return;
             }
+            currentVideoId = id;
+            const img = document.getElementById('thumbnail-preview');
+            const best = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+            const fallback = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+            document.getElementById('failover-link').href = best;
+            img.onload = () => document.getElementById('grabber-output').classList.add('active');
+            img.onerror = () => {
+                img.onerror = null;
+                img.src = fallback;
+                document.getElementById('failover-link').href = fallback;
+            };
+            img.src = best;
         }
 
-        // Direct Client-Canvas Downloader Processing Routine (Stops .webp conversion, guarantees local raw .png data injection)
         function triggerPngDownload() {
             const img = document.getElementById('thumbnail-preview');
             if (!img.src || img.src === window.location.href) {
-                notify('No active graphic target layers loaded.', 'error');
+                notify('Nothing loaded yet.', 'error');
                 return;
             }
-
-            notify('Extracting file matrix layers directly into PNG data arrays...', 'info');
-
             const canvas = document.getElementById('processing-canvas');
             const ctx = canvas.getContext('2d');
-            
-            const renderImage = new Image();
-            renderImage.crossOrigin = "anonymous";
-            
-            // Bypass fetch/proxy errors entirely by directly injecting image data source mapping layout array structures
-            renderImage.src = img.src + '?t=' + new Date().getTime(); 
-
-            renderImage.onload = function () {
-                canvas.width = renderImage.naturalWidth;
-                canvas.height = renderImage.naturalHeight;
-                
-                // Paint pixels natively on client viewport environment to strip out webp wrappers completely
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(renderImage, 0, 0);
-                
+            const src = new Image();
+            src.crossOrigin = 'anonymous';
+            src.onload = () => {
+                canvas.width = src.naturalWidth;
+                canvas.height = src.naturalHeight;
+                ctx.drawImage(src, 0, 0);
                 try {
-                    // Pull explicit image/png data stream
-                    const dataUrl = canvas.toDataURL("image/png");
-                    
-                    const downloadAnchor = document.createElement('a');
-                    downloadAnchor.href = dataUrl;
-                    downloadAnchor.download = `youtube-maxres-${currentVideoId}.png`;
-                    
-                    document.body.appendChild(downloadAnchor);
-                    downloadAnchor.click();
-                    document.body.removeChild(downloadAnchor);
-                    
-                    notify('Premium 1080p PNG file downloaded successfully!', 'success');
-                } catch (error) {
-                    // Emergency fall back loop if security restrictions block script extraction arrays
-                    notify('Direct draw blocked by browser origin. Launching alternative backup file node...', 'error');
+                    const a = document.createElement('a');
+                    a.href = canvas.toDataURL('image/png');
+                    a.download = `youtube-thumbnail-${currentVideoId}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    notify('PNG downloaded', 'success');
+                } catch (err) {
+                    notify('Browser blocked the direct download, opening the image instead.', 'error');
                     window.open(img.src, '_blank');
                 }
             };
-
-            renderImage.onerror = function() {
-                notify('Secure image translation failed. Use the site link redirect button!', 'error');
-            };
+            src.onerror = () => notify('Could not load the image. Use the Open image button.', 'error');
+            src.src = img.src;
         }
+
+        renderLinks();
     </script>
 </body>
 </html>
